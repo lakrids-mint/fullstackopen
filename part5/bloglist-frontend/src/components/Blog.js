@@ -1,8 +1,12 @@
 import React from "react";
-const Blog = ({ blog }) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>
-);
+
+const Blog = ({ blog, deleteBlog }) => {
+  return (
+    <div>
+      {blog.title}
+      <button onClick={() => deleteBlog(blog.id)}>Delete</button>
+    </div>
+  );
+};
 
 export default Blog;

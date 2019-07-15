@@ -4,6 +4,7 @@ import blogService from "./services/blogs";
 import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
+//import DisplayBlogs from "./components/DisplayBlogs";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -53,6 +54,17 @@ function App() {
     setPassword("");
     console.log(`${user.username} logged out`);
   };
+  const deleteBlog = id => {
+    const result = window.confirm(
+      `Are you sure you want to delete this entry?`
+    );
+    if (result) {
+      blogService.deleteBlog(id).then(res => {
+        setBlogs(blogs.filter(blog => blog.id !== id));
+      });
+    }
+  };
+
   const addBlog = e => {
     e.preventDefault();
     const blogObject = {
@@ -61,8 +73,6 @@ function App() {
       url: newUrl,
       likes: 0
     };
-
-    console.log(blogObject);
     blogService
       .create(blogObject)
       .then(data => {
@@ -71,13 +81,17 @@ function App() {
       })
       .catch(e => console.log(e.message));
   };
-  const rows = () => blogs.map(blog => <Blog key={blog.id} blog={blog} />);
+  const rows = () =>
+    blogs.map(blog => (
+      <Blog deleteBlog={deleteBlog} key={blog.id} blog={blog} />
+    ));
+
   const succes = () => (
     <div>
       <h1>Blogs</h1>
       <p>
-        {user.name} {user.username} is logged in{" "}
-      </p>{" "}
+        {user.name} {user.username} is logged in
+      </p>
       <button onClick={() => handleLogout()}>Logout!</button>
       <h2>Create new blog</h2>
       <BlogForm
