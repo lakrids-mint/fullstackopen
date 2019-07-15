@@ -3,6 +3,7 @@ import loginService from "./services/login";
 import blogService from "./services/blogs";
 import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
+import BlogForm from "./components/BlogForm";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -78,33 +79,16 @@ function App() {
         {user.name} {user.username} is logged in{" "}
       </p>{" "}
       <button onClick={() => handleLogout()}>Logout!</button>
-      <div>
-        <h2>Create new blog</h2>
-        <form onSubmit={addBlog}>
-          <input
-            placeholder="title"
-            type="text"
-            name="title"
-            value={newTitle}
-            onChange={({ target }) => setNewTitle(target.value)}
-          />
-          <input
-            placeholder="author"
-            type="text"
-            name="author"
-            value={newAuthor}
-            onChange={({ target }) => setNewAuthor(target.value)}
-          />
-          <input
-            placeholder="www.myurl.dk"
-            type="text"
-            name="url"
-            value={newUrl}
-            onChange={({ target }) => setNewUrl(target.value)}
-          />
-          <input type="submit" value="Create" />
-        </form>
-      </div>
+      <h2>Create new blog</h2>
+      <BlogForm
+        addBlog={addBlog}
+        newTitle={newTitle}
+        setNewTitle={setNewTitle}
+        newAuthor={newAuthor}
+        setNewAuthor={setNewAuthor}
+        newUrl={newUrl}
+        setNewUrl={setNewUrl}
+      />
       <div> {rows()}</div>
     </div>
   );
