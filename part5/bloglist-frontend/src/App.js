@@ -59,6 +59,7 @@ function App() {
       url: newUrl,
       likes: 0
     };
+
     console.log(blogObject);
     blogService
       .create(blogObject)
