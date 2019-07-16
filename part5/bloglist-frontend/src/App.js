@@ -15,6 +15,7 @@ function App() {
   const [newUrl, setNewUrl] = useState([]);
   const [newTitle, setNewTitle] = useState([]);
   const [newAuthor, setNewAuthor] = useState([]);
+  const blogFormRef = React.createRef();
 
   useEffect(() => {
     blogService.getAll().then(blogs => setBlogs(blogs));
@@ -75,6 +76,7 @@ function App() {
   };
   const addBlog = e => {
     e.preventDefault();
+    blogFormRef.current.toggleVisibility();
     const blogObject = {
       title: newTitle,
       author: newAuthor,
@@ -107,7 +109,7 @@ function App() {
         <button onClick={() => handleLogout()}>Logout!</button>
       </p>
 
-      <Togglable buttonLabel="New blog">
+      <Togglable buttonLabel="New blog" ref={blogFormRef}>
         <BlogForm
           addBlog={addBlog}
           newTitle={newTitle}
