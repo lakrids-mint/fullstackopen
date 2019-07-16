@@ -5,6 +5,7 @@ import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 //import DisplayBlogs from "./components/DisplayBlogs";
+import Togglable from "./components/Togglable";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -64,7 +65,14 @@ function App() {
       });
     }
   };
+  const updateLike = id => {
+    const blog = blogs.find(b => b.id === id);
+    const updatedBlog = { ...blog, likes: blog.likes + 1 };
 
+    blogService.updateLike(id, updatedBlog).then(returnedBlog => {
+      setBlogs(blogs.map(blog => (blog.id !== id ? blog : returnedBlog)));
+    });
+  };
   const addBlog = e => {
     e.preventDefault();
     const blogObject = {
@@ -83,26 +91,33 @@ function App() {
   };
   const rows = () =>
     blogs.map(blog => (
-      <Blog deleteBlog={deleteBlog} key={blog.id} blog={blog} />
+      <Blog
+        deleteBlog={deleteBlog}
+        updateLike={updateLike}
+        key={blog.id}
+        blog={blog}
+      />
     ));
 
   const succes = () => (
     <div>
       <h1>Blogs</h1>
       <p>
-        {user.name} {user.username} is logged in
+        {user.name} {user.username} is logged in{" "}
+        <button onClick={() => handleLogout()}>Logout!</button>
       </p>
-      <button onClick={() => handleLogout()}>Logout!</button>
-      <h2>Create new blog</h2>
-      <BlogForm
-        addBlog={addBlog}
-        newTitle={newTitle}
-        setNewTitle={setNewTitle}
-        newAuthor={newAuthor}
-        setNewAuthor={setNewAuthor}
-        newUrl={newUrl}
-        setNewUrl={setNewUrl}
-      />
+
+      <Togglable buttonLabel="New blog">
+        <BlogForm
+          addBlog={addBlog}
+          newTitle={newTitle}
+          setNewTitle={setNewTitle}
+          newAuthor={newAuthor}
+          setNewAuthor={setNewAuthor}
+          newUrl={newUrl}
+          setNewUrl={setNewUrl}
+        />
+      </Togglable>
       <div> {rows()}</div>
     </div>
   );
