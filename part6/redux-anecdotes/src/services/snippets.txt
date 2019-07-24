@@ -1,0 +1,10 @@
+ const id = action.data;
+      console.log("action ", action.data);
+      const anecdoteToUpvote = state.find(a => a.id === id);
+      const upvotedAnecdote = {
+        ...anecdoteToUpvote,
+        votes: anecdoteToUpvote.votes + 1
+      };
+      return state.map(anecdote =>
+        anecdote.id !== id ? anecdote : upvotedAnecdote
+      );

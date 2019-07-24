@@ -37,7 +37,7 @@ const App = () => {
   //Add person to db
   const addPerson = e => {
     e.preventDefault();
-    setNewNumber(e.target.phone);
+    setNewNumber(e.target.number);
     setNewName(e.target.name);
     const personObject = {
       name: newName,
@@ -64,12 +64,11 @@ const App = () => {
           setNewName("");
           setNewNumber("");
         })
-        .catch(e => console.log(e));
+        .catch(e => setErrorMessage(e.response.data));
     }
   };
   //delete from db
   const deletePerson = id => {
-    //TODO: name person
     const result = window.confirm(
       `Are you sure you want to delete this person?`
     );
